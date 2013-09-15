@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "Member Only - File"
+AuthUserFile /virtual/www/inquiry/form/__file/.htpasswd
+require valid-user
+
