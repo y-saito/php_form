@@ -1,27 +1,34 @@
-FROM ubuntu:16.04
+FROM python
 
-RUN apt-get update -y && \
-    apt-get install -y sysv-rc-conf && \
-    apt-get install -y vim && \
-    apt-get install -y less && \
-    apt-get install -y wget && \
-    apt-get install -y curl && \
-    apt-get install -y rsync && \
-    apt-get install -y openssh-client && \
-    apt-get install -y tree && \
-    apt-get install -y expect && \
-    apt-get install -y language-pack-ja && \
+RUN apt-get update -y
+RUN apt-get install -y apt-utils
+RUN apt-get install -y vim
+RUN apt-get install -y nkf
+RUN apt-get install -y less
+RUN apt-get install -y tree
 
-    #まだ中途半端
-    update-locale LANG=ja_JP.UTF-8 && \
-    apt-get install -y ntp && \
-    echo "server ntp.nict.jp" >> /etc/ntp.conf \
-    echo "NTP=ntp.ring.gr.jp" >> /etc/systemd/timesyncd.conf && \
+RUN apt-get install -y mecab
+RUN apt-get install -y mecab-ipadic
+RUN apt-get install -y mecab-ipadic-utf8
+RUN apt-get install -y libmecab-dev
 
-    apt-get install -y nginx && \
-    cd /etc/nginx/conf.d/ && \
-    ln -s /tmp/share/nginx_php-fpm.conf nginx_php-fpm.conf 
+RUN pip install mecab-python3
 
-ADD vimrc /root/.vimrc
-EXPOSE 80
-CMD ["npm", "start", "--production"]
+#php.iniのパスは以下になります。
+#/etc/php5/apache2/php.ini
+RUN apt-get install -y software-properties-common python-software-properties
+RUN apt-add-repository ppa:ondrej/apache2
+#RUN apt-get update -y
+RUN apt-get install -y apache2
+RUN apt-add-repository ppa:ondrej/php
+#RUN apt-get update -y
+RUN apt-get install -y php5
+RUN apt-get install -y libapache2-mod-php5
+RUN apt-get install -y php5-pgsql php5-gd php5-dev
+RUN apt-get install -y postgresql postgresql-contrib
+
+RUN apt-get install -y sysv-rc-conf
+RUN sysv-rc-conf apache2 on
+RUN sysv-rc-conf postgresql on
+
+#ENTRYPOINT /etc/init.d/apache2 start && /etc/init.d/postgresql start && /etc/init.d/sshd start && /bin/bash
