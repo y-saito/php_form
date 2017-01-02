@@ -30,6 +30,9 @@ RUN apt-get install -y libapache2-mod-php5
 RUN apt-get install -y php5-pgsql php5-gd php5-dev
 RUN apt-get install -y postgresql postgresql-contrib
 
+#develop mode
+RUN apt-get install -y php5-xdebug
+ADD ./xdebug-conf.ini ${PhpIniDir}/30-xdebug-conf.ini
 
 EXPOSE 80
 
