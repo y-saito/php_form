@@ -15,7 +15,7 @@
 
 
 
-<form class="form-horizontal" method="post" action="/inquiry/form/noreply/proc/">
+<form class="form-horizontal" method="post" action="/<%$BaseDir%>/<%$Dir%>/proc/">
 
 <div class="control-group">
   <label class="control-label" for="title">投稿内容 <span class="label label-important">必須</span></label>

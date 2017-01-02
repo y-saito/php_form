@@ -14,7 +14,7 @@
 
 
 
-<form class="form-horizontal" method="post" action="/form/noreply/proc/">
+<form class="form-horizontal" method="post" action="/<%$BaseDir%>/<%$Dir%>/proc/">
 <p>※ <span class="label label-important">必須</span> は入力必須項目です。</p>
 <hr />
 

@@ -71,6 +71,7 @@ $smarty->cache_lifetime = $smartyCacheLifeTime;
 
 
 /* Smarty assign start */
+$smarty->assign("BaseDir",$AppConf["baseDirName"],true);
 $smarty->assign("Dir","{$dir}",true);
 $smarty->assign("Mode","{$mode}",true);
 
