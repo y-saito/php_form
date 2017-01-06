@@ -24,6 +24,7 @@ function InitProc() {
 	return $AppConf;
 }
 
+//functionsディレクトリ以下の_が頭につくファイルをすべてrequireしている
 function requireAllFuncs($dir){
 	$dir_last = substr($dir, -1);
 	if($dir_last !== '/'){
