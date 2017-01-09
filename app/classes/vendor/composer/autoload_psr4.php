@@ -6,6 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Functions\\' => array($baseDir . '/functions'),
-    'Configs\\' => array($baseDir . '/configs'),
+    'phpForm\\' => array($baseDir . '/'),
 );
