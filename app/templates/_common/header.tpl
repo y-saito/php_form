@@ -1,4 +1,3 @@
-<%config_load file="$Dir/smarty.conf" section="setup"%>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

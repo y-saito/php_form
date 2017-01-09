@@ -5,15 +5,12 @@
  * Time: 16:31
  */
 
-class noreply implements \phpForm\Core\Controller_Interface
+class noreply implements \phpForm\Core\Configure_Interface
 {
   private $controllerConf_arr = [
 
     //Smarty パラメータ
-    "smarty" => [
-      "debug" => false,
-      "caching" => false,
-      "cacheLifeTime" => 0,
+    "renderSetting" => [
       "pageTitle" => "title", // ページタイトルタグ
       "pageDescription" => "description" // ページディスクリプションタグ
     ],
@@ -84,7 +81,8 @@ class noreply implements \phpForm\Core\Controller_Interface
   }
   
   //hook定義==========
-  public function doHookProc($hookpoint, $data=array()) {
+  public function doHookProc($hookpoint="", $data=[]) {
+  
     //global $AppConf;
     switch($hookpoint) {
       //Smartyにassignする直前に実行

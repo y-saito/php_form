@@ -4,24 +4,35 @@ useApp : つくるフォームのディレクトリ名
 siteUrl : リダイレクト用
 defaultAction : 入力画面のテンプレートファイル名(.tplは省きます。
 */
-	$phpFormConf_arr = array(
-		"useApp" => array(
-			//"reply",
-			"noreply",
-			//"message",
-		),
-		"siteUrl" => "http://php-form.local/",
+  $phpFormConf_arr = array(
+    //"useApp" => array(
+      //"reply",
+    //  "noreply",
+      //"message",
+    //),
+    "siteUrl" => "http://php-form.local/",
     "baseDirName" => "php_form",
-		"defaultAction" => "entry",
-		"maxWriteRetry" => 5, //ファイル読み書き込みのリトライ回数
-		"writeWait"     => 3000000, //ファイル読み書き込みのリトライ回数後の待ち時間(マイクロ秒)
-	);
+    "renderEngine" => "Smarty", //今はこれだけ
+    //Smarty パラメータ
+    "renderConf" => [
+      "force_compile" => false,
+      "debugging" => false,
+      "caching" => false,
+      "cache_lifetime" => 0,
+      //テンプレートにjs,cssが書けるように
+      "left_delimiter" => '<%',
+      "right_delimiter" => '%>',
+    ],
+    "defaultAction" => "entry",
+    "maxWriteRetry" => 5, //ファイル読み書き込みのリトライ回数
+    "writeWait"     => 3000000, //ファイル読み書き込みのリトライ回数後の待ち時間(マイクロ秒)
+  );
 //make routing from uri
 $phpFormConf_arr['scriptnameInfo'] = pathinfo($_SERVER['SCRIPT_NAME']);
 $appInfoTmp = str_replace($phpFormConf_arr['scriptnameInfo'], '', $_SERVER['REQUEST_URI']);
 $appInfoTmp = explode('/', $appInfoTmp);
 $phpFormConf_arr['controller'] = $appInfoTmp[1];
-$phpFormConf_arr['action']  = $appInfoTmp[2];
+$phpFormConf_arr['action']  = (isset($appInfoTmp[2]) ? $appInfoTmp[2]:"");
 
 /*
  * 文言設定
@@ -81,7 +92,7 @@ $Messages_arr['pref_optionlist'] = array(
 
 // optionのoutput=>value
 $Messages_arr['title_optionlist'] = array(
-//	"選択してください" => "",
+//  "選択してください" => "",
   "output" => "value",
 );
 
