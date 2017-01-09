@@ -13,7 +13,9 @@ class noreply implements \phpForm\Core\Controller_Interface
     "smarty" => [
       "debug" => false,
       "caching" => false,
-      "cacheLifeTime" => 0
+      "cacheLifeTime" => 0,
+      "pageTitle" => "title", // ページタイトルタグ
+      "pageDescription" => "description" // ページディスクリプションタグ
     ],
     "mail" => [ 
       // 管理者メールアドレス ※メールを受け取るメールアドレス(複数指定する場合は「,」で区切ってください)
@@ -72,12 +74,18 @@ class noreply implements \phpForm\Core\Controller_Interface
     ]
  ];
 
-
-
-/*
-//hook定義==========
-  function hookProc($hookpoint, $data=array()) {
-    global $AppConf;
+  public function __construct($phpFormConf_arr)
+  {
+    $this->controllerConf_arr["appConf"] = $phpFormConf_arr;
+  }
+  
+  public function getControllerConf(){
+    return $this->controllerConf_arr;
+  }
+  
+  //hook定義==========
+  public function doHookProc($hookpoint, $data=array()) {
+    //global $AppConf;
     switch($hookpoint) {
       //Smartyにassignする直前に実行
       case 'before_assign':
@@ -87,23 +95,13 @@ class noreply implements \phpForm\Core\Controller_Interface
         }
         break;
       //Smartyにassignする項目を作成する際に実行
-      case 'add_assign_array':
-        $AppConf['add_assign_array']['title_output'] = array_keys($AppConf['Lang']['title_optionlist']);
-        $AppConf['add_assign_array']['title_values'] = array_values($AppConf['Lang']['title_optionlist']);
-        break;
+      //case 'add_assign_array':
+      //  $AppConf['add_assign_array']['title_output'] = array_keys($AppConf['Lang']['title_optionlist']);
+      //  $AppConf['add_assign_array']['title_values'] = array_values($AppConf['Lang']['title_optionlist']);
+      //  break;
       default:
         break;
     }
   }
 
-*/
-  
-  public function __construct($phpFormConf_arr)
-  {
-    $this->controllerConf_arr["appConf"] = $phpFormConf_arr;
-  }
-  
-  public function getControllerConf(){
-    return $this->controllerConf_arr;
-  }
 }

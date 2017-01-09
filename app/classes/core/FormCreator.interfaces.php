@@ -9,6 +9,10 @@
 namespace phpForm\Core;
  
 interface Controller_Interface{
+
   public function getControllerConf();
+  
+  public function doHookProc();
+
 }
  

@@ -13,11 +13,11 @@ require_once "configs/{$controllerName_str}.conf.php";
 $controller_obj = new $controllerName_str($phpFormConf_arr);
 var_dump($controller_obj->getControllerConf());
 
-// get render obj
+// get libs obj
 require_once "libs/vendor/autoload.php";
 $render_obj = new Smarty();
 
-// get function obj
+// get functions obj
 require_once "classes/vendor/autoload.php";
 $inputValueController_obj = new phpForm\Core\Functions\InputValueController();
 $mailer_obj = new phpForm\Core\Functions\Mailer();
