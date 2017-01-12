@@ -1,18 +1,19 @@
 <%include file="_common/header.tpl"%>
 
-<header class="pagetitle form-noreply">
-<h1><i class="icon-envelope"></i> 投稿フォーム（返信の不要な方）</h1>
-</header>
+<div class="page-header">
+  <h2>完了画面</h2>
+</div>
 
-<h2 class="text-center">投稿を受け付けました。</h2>
+<div class="alert alert-info" role="alert">
+  <ul class="list-unstyled">
+    <li>投稿を受け付けました。</li>
+  </ul>
+</div>
 
-<section class="well">
-<ul>
-<li>投稿の受付が完了しました。<br>今度ともよろしくお願いいたします。</li>
-</ul>
-</section>
-
-
-<p class="text-center"><a href="/" class="btn btn-large"><i class="icon-home"></i> トップページへ</a></p>
+<div class="btn-group btn-group-justified" role="group">
+  <div class="btn-group" role="group">
+    <button class="btn btn-primary" onclick="location.href='/'">トップページへ</button>
+  </div>
+</div>
 
 <%include file="_common/footer.tpl"%>

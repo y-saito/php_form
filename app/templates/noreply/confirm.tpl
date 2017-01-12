@@ -1,43 +1,38 @@
 <%include file="_common/header.tpl"%>
 
-<header class="pagetitle form-noreply">
-<h1><i class="icon-envelope"></i>投稿フォーム（返信の不要な方）</h1>
-</header>
+<div class="page-header">
+  <h2>確認画面</h2>
+</div> 
 
-<h2 class="text-center">確認画面</h2>
-
-<section class="well">
-<ul>
+<div class="alert alert-info" role="alert">
+<ul class="list-unstyled">
 <li>以下の内容で送信します。内容をご確認頂き「送信する」ボタンを押してください。</li>
 <li>内容を修正される場合は「戻る」ボタンを押してください。</li>
 </ul>
-</section>
+</div>
 
-
-
-
-<div class="control-group">
-  <label class="control-label" for="title">投稿内容 </label>
-  <div class="controls">
-    ご職業：<%$inputValue.title%>
-    <br>
-    メールアドレス：<%$inputValue.mail|escape%>
-    <br>
-    コメント：<%$inputValue.comment|escape|nl2br%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">投稿内容</h3>
+  </div>
+  <div class="panel-body">
+    <ul class="list-unstyled">
+      <li>ご職業：<%$inputValue.title%></li>
+      <li>メールアドレス：<%$inputValue.mail|escape%></li>
+      <li>投稿欄：<%$inputValue.comment%></li>
+    </ul>
   </div>
 </div>
 
-<div class="well form-noreply text-center">
-  <form class="form-horizontal" method="post" action="/<%$appConf.baseDirName%>/<%$appConf.controller%>/thanks/">
-  <button name="submit" value="thanks" class="btn btn-primary">送信する</button>
-  </form>
-  <button class="btn" onclick="location.href='/<%$appConf.baseDirName%>/<%$appConf.controller%>/entry/'">戻る</button>
+<div class="btn-group btn-group-justified" role="group">
+  <div class="btn-group" role="group">
+    <button class="btn btn-default" onclick="location.href='/<%$appConf.baseDirName%>/<%$appConf.controller%>/entry/'">戻る</button>
+  </div>
+  <div class="btn-group" role="group">
+    <form class="form-horizontal" method="post" action="/<%$appConf.baseDirName%>/<%$appConf.controller%>/thanks/">
+    <button name="submit" value="thanks" class="btn btn-primary">送信する</button>
+    </form>
+  </div>
 </div>
-</form>
-
-<ul class="small">
-<li>ブラウザの戻るボタンはクリックしないでください。</li>
-</ul>
-
 
 <%include file="_common/footer.tpl"%>
