@@ -12,37 +12,37 @@
 </ul>
 </section>
 
-
-
 <form class="form-horizontal" method="post" action="/<%$appConf.baseDirName%>/<%$appConf.controller%>/confirm/">
 <p>※ <span class="label label-important">必須</span> は入力必須項目です。</p>
 <hr />
 
 <div class="control-group">
-  <label class="control-label" for="title">投稿内容 <span class="label label-important">必須</span></label>
+  <label class="control-label" for="title">投稿内容 </label>
   <div class="controls">
     <div class="input-prepend">
-      <span class="add-on">Your jobs：</span>
+      <span class="add-on">ご職業：</span>
       <select id="title" name="title">
         <%html_options output=$controllerConf.titleArray values=$controllerConf.titleValueArray selected=$inputValue.title%>
       </select>
     </div>
-<%if isset($err_title)%>
-  <%section name=counter loop=$err_title%>
-  <br><span class="text-error"><%$err_title[counter]%></span>
+ <%if isset($errorArr.mail)%>
+  <%section name=counter loop=$errorArr.mail%>
+  <br><span class="text-error"><%$errorArr.mail[counter]|escape%></span>
   <%/section%>
 <%/if%>
     <br>
-    <textarea id="comment" name="comment" class="span6 mt10" rows="6"><%$inputValue.comment%></textarea>
+    メールアドレス：<input id="mail" name="mail" class="" value="<%$inputValue.mail|escape%>">
+  <%if isset($errorArr.comment)%>
+    <%section name=counter loop=$errorArr.comment%>
+    <br><span class="text-error"><%$errorArr.comment[counter]|escape%></span>
+    <%/section%>
+  <%/if%>
+    <br>
+    コメント<span class="label label-important">*必須</span>：<br>
+    <textarea id="comment" name="comment" class="span6 mt10" rows="6"><%$inputValue.comment|escape%></textarea>
+    <br>
     <span class="help-inline">※ 半角カタカナ、特殊文字の使用は避けてください。</span>
   </div>
-<%if isset($err_comment)%>
-  <div class="controls">
-  <%section name=counter loop=$err_comment%>
-    <p class="text-error"><%$err_comment[counter]%></p>
-  <%/section%>
-  </div>
-<%/if%>
 </div>
 
 <div class="well form-noreply text-center">

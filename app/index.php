@@ -30,7 +30,8 @@ if($actionName_str !== $phpFormConf_arr['defaultAction'] && !isset($_POST['submi
 // sessoin start
 sessionStart($controllerName_str);
 //入力値をsessionに格納
-if(!isset($_SESSION['_request'])) $_SESSION['_request'] = []; 
+if(!isset($_SESSION['_request'])) $_SESSION['_request'] = [];
+if(!isset($_SESSION['_validateError'])) $_SESSION['_validateError'] = []; 
 if(isset($_POST)) {
   foreach($_POST as $key => $value) {
     $_SESSION['_request'][$key] = $value;
@@ -47,7 +48,6 @@ require_once "classes/core/FormCreator.interfaces.php";
  */
 require_once "$controllerConfFileName_str";
 $conf_obj = new $controllerName_str($phpFormConf_arr);
-var_dump($conf_obj->getControllerConf());
 
 /**
  * get libs obj
@@ -60,7 +60,7 @@ $renderEngine_obj = new $phpFormConf_arr["renderEngine"]();
  * get functions obj
  */
 require_once "classes/vendor/autoload.php";
-$inputValueController_obj = new phpForm\Core\Functions\InputValueController($_SESSION["_request"]);
+$inputValueController_obj = new phpForm\Core\Functions\InputValueController($_SESSION["_request"], $_SESSION["_validateError"]);
 $mailer_obj = new phpForm\Core\Functions\Mailer();
 $renderClassName = 'phpForm\Core\Functions\Render' . $phpFormConf_arr["renderEngine"];
 $render_obj = new $renderClassName($renderEngine_obj, $phpFormConf_arr["renderConf"]);
@@ -82,14 +82,16 @@ $formCreator_obj = new phpForm\Core\FormCreator(
 /**
  * input after process values to session
  */
-if($formCreator_obj->formCreate() === true){
-  $_SESSION['_request'] = $formCreator_obj->getInputValue();
-  if($actionName_str === "thanks") sessionClear();
-}else{
-  sessionClear();
-  goHome("{$phpFormConf_arr['scriptnameInfo']['dirname']}/top.html");
+$result = $formCreator_obj->formCreate();
+$_SESSION['_request'] = $formCreator_obj->getInputValue();
+$_SESSION['_validateError'] = $formCreator_obj->getValidateErrorArray();
+
+if($result === false)  {
+  $finalAction_str = $formCreator_obj->getControllerSettingArr()["appConf"]["action"];
+  goHome("{$phpFormConf_arr['scriptnameInfo']['dirname']}/{$controllerName_str}/{$finalAction_str}");
 }
 
+if($actionName_str === "thanks") sessionClear();
 
 //-- utities
 /**
@@ -97,7 +99,6 @@ if($formCreator_obj->formCreate() === true){
  */
 function sessionStart($controller_str){
   session_start();
-  var_dump($_SESSION);
   /* Incorrect access check */
   if(isset($_SESSION['controller']) && $_SESSION['controller'] !== $controller_str) {
     $_SESSION = array();

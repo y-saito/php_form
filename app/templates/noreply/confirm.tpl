@@ -17,11 +17,13 @@
 
 
 <div class="control-group">
-  <label class="control-label" for="title">投稿内容 <span class="label label-important">必須</span></label>
+  <label class="control-label" for="title">投稿内容 </label>
   <div class="controls">
-    表題：<%$title%>
+    ご職業：<%$inputValue.title%>
     <br>
-    <%$comment|nl2br%>
+    メールアドレス：<%$inputValue.mail|escape%>
+    <br>
+    コメント：<%$inputValue.comment|escape|nl2br%>
   </div>
 </div>
 

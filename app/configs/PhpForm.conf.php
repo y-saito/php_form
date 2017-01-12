@@ -5,11 +5,6 @@ siteUrl : リダイレクト用
 defaultAction : 入力画面のテンプレートファイル名(.tplは省きます。
 */
   $phpFormConf_arr = array(
-    //"useApp" => array(
-      //"reply",
-    //  "noreply",
-      //"message",
-    //),
     "siteUrl" => "http://php-form.local/",
     "baseDirName" => "php_form",
     "renderEngine" => "Smarty", //今はこれだけ
@@ -99,6 +94,8 @@ $Messages_arr['title_optionlist'] = array(
 
 $Messages_arr['errMess'] = array(
   "must" => "入力必須項目です。",
+  "mail" => "正しいメールアドレスを入力してください。",
+  "dc" => "機種依存文字が含まれていました。",
 );
 
 $Messages_arr['warnMess'] = array(
