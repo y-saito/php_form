@@ -56,20 +56,15 @@ class noreply implements \phpForm\Core\Configure_Interface
       "re_subject" => ""
     ],
     "inputCheck" => [
-      // 入力チェックをする(する=1, しない=0)
-      "enable" => 1,
-        
         /* 入力項目設定(入力フォームで指定したnameキーに対する、設定パラメータ値を設定
         must : 必須
-        h : htmlエスケープ対象（オリジナルはh__[name]キーに格納）
         mail : メール形式チェック
-        dc : 機種依存文字（machine dependent characters）チェック（警告のみ）。
+        dc : 機種依存文字（machine dependent characters）チェック
         */
       //name => type_type...
-      "items" => [
-        'title' => 'must_h_dc',
-        'comment' => 'must_h_dc',
-      ]
+      'title' => 'must',
+      'comment' => 'must_dc',
+      'mail' => 'mail_dc',
     ]
  ];
 

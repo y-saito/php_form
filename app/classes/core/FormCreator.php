@@ -20,7 +20,7 @@ class FormCreator
    */
   private $controllerSetting_arr;
   
-  /**
+ /**
    * FormCreator constructor.
    * 
    * Dependency Injection.
@@ -42,6 +42,14 @@ class FormCreator
     $this->mailer_obj = $mailer_obj;
   
     $this->controllerSetting_arr = $conf_obj->getControllerConf();
+  }
+  
+   /**
+   * @return array
+   */
+  public function getControllerSettingArr()
+  {
+    return $this->controllerSetting_arr;
   }
   
   /**
@@ -70,39 +78,51 @@ class FormCreator
   
     // process
     $methodName = "process".ucfirst($this->controllerSetting_arr["appConf"]["action"]);
-    $this->$methodName();
-    
-    // rendering
-    $this->render_obj->assign("appConf", $this->controllerSetting_arr["appConf"]);
-    $this->render_obj->assign("controllerConf", $this->controllerSetting_arr["renderSetting"]);
-    $this->render_obj->assign("inputValue", $this->inputValueController_obj->getInputValueArr());
-    if ($this->render_obj->render($this->makeTemplateName()) === false) return false;
-    
-    //$this->render_obj->render("debug.tpl");
-    //echo "Hello world!";
-    return true;
+    if($this->$methodName() === true) {
+  
+      // rendering
+      $this->render_obj->assign("appConf", $this->controllerSetting_arr["appConf"]);
+      $this->render_obj->assign("controllerConf", $this->controllerSetting_arr["renderSetting"]);
+      $this->render_obj->assign("inputValue", $this->inputValueController_obj->getInputValueArr());
+      $this->render_obj->assign("errorArr", $this->inputValueController_obj->getErrorArr());
+      if ($this->render_obj->render($this->makeTemplateName()) === false) return false;
+  
+      //$this->render_obj->render("debug.tpl");
+      //echo "Hello world!";
+      return true;
+    }else{
+      return false;
+    }
   }
   
   private function processEntry()
   {
-    echo "entry";
+    return true;
   }
   
   private function processConfirm()
   {
-    echo "confirm";
-    if($error) $this->controllerSetting_arr["appConf"]["action"] = "entry";
-    
+    // errorcheck
+    // もしエラーがあったら前の画面に戻る
+    $renderError_arr = $this->inputValueController_obj->validate($this->controllerSetting_arr["inputCheck"], $this->controllerSetting_arr["appConf"]["messages"]);
+    if(count($renderError_arr) > 0) {
+      $this->controllerSetting_arr["appConf"]["action"] = "entry";
+      return false;
+    }
+    return true;
   }
   
   private function processThanks()
   {
-    if($error) $this->controllerSetting_arr["appConf"]["action"] = "entry";
-    echo "thanks";
+    return true;
   }
   
   public function getInputValue()
   {
     return $this->inputValueController_obj->getInputValueArr();
+  }
+  
+  public function getValidateErrorArray(){
+    return $this->inputValueController_obj->getErrorArr();
   }
 }
