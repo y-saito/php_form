@@ -32,7 +32,8 @@ $phpFormConf_arr['scriptnameInfo'] = pathinfo($_SERVER['SCRIPT_NAME']);
 $appInfoTmp = str_replace($phpFormConf_arr['scriptnameInfo'], '', $_SERVER['REQUEST_URI']);
 $appInfoTmp = explode('/', $appInfoTmp);
 $phpFormConf_arr['controller'] = $appInfoTmp[1];
-$phpFormConf_arr['action']  = (isset($appInfoTmp[2]) ? $appInfoTmp[2]:"");
+$phpFormConf_arr['action']  = (isset($appInfoTmp[2]) ? $appInfoTmp[2] : $phpFormConf_arr["defaultAction"]);
+$phpFormConf_arr['submit']  = (isset($_POST["submit"]) ? $_POST["submit"] : $phpFormConf_arr["defaultAction"]);
 
 /*
  * 文言設定

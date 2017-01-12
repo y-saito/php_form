@@ -14,7 +14,7 @@
 
 
 
-<form class="form-horizontal" method="post" action="/<%$BaseDir%>/<%$Dir%>/proc/">
+<form class="form-horizontal" method="post" action="/<%$appConf.baseDirName%>/<%$appConf.controller%>/confirm/">
 <p>※ <span class="label label-important">必須</span> は入力必須項目です。</p>
 <hr />
 
@@ -22,10 +22,10 @@
   <label class="control-label" for="title">投稿内容 <span class="label label-important">必須</span></label>
   <div class="controls">
     <div class="input-prepend">
-      <span class="add-on">表題：</span>
+      <span class="add-on">Your jobs：</span>
       <select id="title" name="title">
-	<%html_options values=$title_values selected=$title output=$title_output%>
-     </select>
+        <%html_options output=$controllerConf.titleArray values=$controllerConf.titleValueArray selected=$inputValue.title%>
+      </select>
     </div>
 <%if isset($err_title)%>
   <%section name=counter loop=$err_title%>
@@ -33,7 +33,7 @@
   <%/section%>
 <%/if%>
     <br>
-    <textarea id="comment" name="comment" class="span6 mt10" rows="6"><%$comment%></textarea>
+    <textarea id="comment" name="comment" class="span6 mt10" rows="6"><%$inputValue.comment%></textarea>
     <span class="help-inline">※ 半角カタカナ、特殊文字の使用は避けてください。</span>
   </div>
 <%if isset($err_comment)%>

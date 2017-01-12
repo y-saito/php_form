@@ -11,17 +11,13 @@ namespace phpForm\Core;
 
 class FormCreator
 {
-  /**
-   * @var $conf_obj object 
-   * @var $inputValueController_obj object
-   * @var $render_obj object
-   * @var $mailer_obj object
-   * @var $controllerSetting_arr array "Application and Controller Settings."
-   */
   private $conf_obj;
   private $inputValueController_obj;
   private $render_obj;
   private $mailer_obj;
+  /**
+   * @var $controllerSetting_arr array "Application and Controller Settings."
+   */
   private $controllerSetting_arr;
   
   /**
@@ -68,12 +64,45 @@ class FormCreator
    * 
    * main process of form creation.
    * 
-   * @return void
+   * @return bool
    */ 
   public function formCreate(){
+  
+    // process
+    $methodName = "process".ucfirst($this->controllerSetting_arr["appConf"]["action"]);
+    $this->$methodName();
+    
     // rendering
-    $this->render_obj->render($this->makeTemplateName());
+    $this->render_obj->assign("appConf", $this->controllerSetting_arr["appConf"]);
+    $this->render_obj->assign("controllerConf", $this->controllerSetting_arr["renderSetting"]);
+    $this->render_obj->assign("inputValue", $this->inputValueController_obj->getInputValueArr());
+    if ($this->render_obj->render($this->makeTemplateName()) === false) return false;
+    
     //$this->render_obj->render("debug.tpl");
     //echo "Hello world!";
+    return true;
+  }
+  
+  private function processEntry()
+  {
+    echo "entry";
+  }
+  
+  private function processConfirm()
+  {
+    echo "confirm";
+    if($error) $this->controllerSetting_arr["appConf"]["action"] = "entry";
+    
+  }
+  
+  private function processThanks()
+  {
+    if($error) $this->controllerSetting_arr["appConf"]["action"] = "entry";
+    echo "thanks";
+  }
+  
+  public function getInputValue()
+  {
+    return $this->inputValueController_obj->getInputValueArr();
   }
 }

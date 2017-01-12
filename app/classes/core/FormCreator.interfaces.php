@@ -18,7 +18,7 @@ interface Configure_Interface{
 
 interface Render_Interface{
   
-  public function assign($assign=[]);
+  public function assign($key="", $value=[]);
   
   public function render($template="");
 

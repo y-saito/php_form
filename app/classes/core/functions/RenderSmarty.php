@@ -25,13 +25,15 @@ class RenderSmarty implements Render_Interface
     $this->engine->right_delimiter = $smartyConf_arr["right_delimiter"];
   }
   
-  public function assign($assign_arr = []){
-    foreach($assign_arr as $name_str => $value_mixed) {
-      $this->engine->assign($name_str, $value_mixed);
-    }
+  public function assign($assign_key="", $assign_arr = []){
+    $this->engine->assign($assign_key, $assign_arr);
   }
   
   public function render($template_str = ""){
+  
+    if( !$this->engine->templateExists($template_str) ){
+      return false;
+    }
     $this->engine->display($template_str);
   }
 }

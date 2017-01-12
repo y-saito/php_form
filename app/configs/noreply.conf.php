@@ -9,10 +9,12 @@ class noreply implements \phpForm\Core\Configure_Interface
 {
   private $controllerConf_arr = [
 
-    //Smarty パラメータ
+    //Smarty 表示用パラメータ //asaing変数名 => assignする内容
     "renderSetting" => [
       "pageTitle" => "title", // ページタイトルタグ
-      "pageDescription" => "description" // ページディスクリプションタグ
+      "pageDescription" => "description", // ページディスクリプションタグ
+      "titleArray" => ["Engineer","Sales","Support","Manager"],
+      "titleValueArray" => [0,1,2,3],
     ],
     "mail" => [ 
       // 管理者メールアドレス ※メールを受け取るメールアドレス(複数指定する場合は「,」で区切ってください)
