@@ -8,7 +8,19 @@
  
 namespace phpForm\Core;
  
-interface Controller_Interface{
+interface Configure_Interface{
+
   public function getControllerConf();
+  
+  public function doHookProc($hookpoint="", $data=[]);
+
+}
+
+interface Render_Interface{
+  
+  public function assign($key="", $value=[]);
+  
+  public function render($template="");
+
 }
  

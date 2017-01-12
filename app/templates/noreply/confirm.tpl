@@ -15,7 +15,6 @@
 
 
 
-<form class="form-horizontal" method="post" action="/<%$BaseDir%>/<%$Dir%>/proc/">
 
 <div class="control-group">
   <label class="control-label" for="title">投稿内容 <span class="label label-important">必須</span></label>
@@ -27,10 +26,10 @@
 </div>
 
 <div class="well form-noreply text-center">
-  <input type="hidden" name="title" value="<%$title%>">
-  <input type="hidden" name="comment" value="<%$comment%>">
-  <button type="submit" name="submit" value="thanks" class="btn btn-primary">送信する</button>
-  <button type="submit" name="submit" value="entry" class="btn">戻る</button>
+  <form class="form-horizontal" method="post" action="/<%$appConf.baseDirName%>/<%$appConf.controller%>/thanks/">
+  <button name="submit" value="thanks" class="btn btn-primary">送信する</button>
+  </form>
+  <button class="btn" onclick="location.href='/<%$appConf.baseDirName%>/<%$appConf.controller%>/entry/'">戻る</button>
 </div>
 </form>
 
