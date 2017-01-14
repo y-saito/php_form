@@ -25,7 +25,6 @@ dockerの定義ファイルとセットになっているため、dockerがイ�
 
 WEBフォームを追加する
 ---
-デフォルトで **http://localhost:50080/php_form/noreply/** でアクセスできましたね。
 では、次に別のフォームを追加してみましょう。
 これも以下の操作で簡単にできます。(導入の最後の操作のあと、dockerコンテナにログインしている状態で始める想定です。）
 
@@ -35,7 +34,9 @@ WEBフォームを追加する
 	cd ../templates/
 	cp -pr noreply/ alt
 
-これだけです！あとは **/var/www/html/php_form/configs/alt.conf.php** の設定値や、**/var/www/html/php_form/templates/** 以下のテンプレートを変更するだけで新しいWEBフォームを追加することができます！簡単でしょう？
+これだけです！ **http://localhost:50080/php_form/alt/** にアクセスできますよね？
+
+あとは **/var/www/html/php_form/configs/alt.conf.php** の設定値や、**/var/www/html/php_form/templates/alt/** 以下のテンプレートを変更するだけで新しいWEBフォームを追加することができます！簡単でしょう？
 
 
 
