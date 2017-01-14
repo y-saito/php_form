@@ -22,7 +22,23 @@ dockerの定義ファイルとセットになっているため、dockerがイ�
 	docker run -i -t -v $(pwd):/tmp/share -p 50080:80 --name php_form_container php_form /bin/bash
 
 ブラウザで **http://localhost:50080/php_form/noreply/** にアクセスしてみてください。
-	
+
+WEBフォームを追加する
+---
+デフォルトで **http://localhost:50080/php_form/noreply/** でアクセスできましたね。
+では、次に別のフォームを追加してみましょう。
+これも以下の操作で簡単にできます。(導入の最後の操作のあと、dockerコンテナにログインしている状態で始める想定です。）
+
+
+	cd /var/www/html/php_form/configs/
+	cp noreply.conf.php alt.conf.php
+	cd ../templates/
+	cp -pr noreply/ alt
+
+これだけです！あとは **/var/www/html/php_form/configs/alt.conf.php** の設定値や、**/var/www/html/php_form/templates/** 以下のテンプレートを変更するだけで新しいWEBフォームを追加することができます！簡単でしょう？
+
+
+
 動作環境
 ----
 - macOS 10.12.2
@@ -37,6 +53,8 @@ dockerの定義ファイルとセットになっているため、dockerがイ�
 	- ファイルカウントアップ
 - DockerにDB追加
 - フロントを楽しい感じにしたい
+- フォームの設定ファイルを使いやすくしたい。yaml形式とかの方がいい？
+- フォームの設定ファイルやテンプレートに関するドキュメントを充実させたい。
 
 ライセンス
 ----
