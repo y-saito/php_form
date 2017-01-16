@@ -5,7 +5,7 @@
  * Time: 16:31
  */
 
-class noreply implements \phpForm\Core\Configure_Interface
+class formController implements \phpForm\Core\Configure_Interface
 {
   private $controllerConf_arr = [
 

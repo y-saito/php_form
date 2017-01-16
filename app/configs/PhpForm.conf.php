@@ -5,7 +5,7 @@ siteUrl : リダイレクト用
 defaultAction : 入力画面のテンプレートファイル名(.tplは省きます。
 */
   $phpFormConf_arr = array(
-    "siteUrl" => "http://php-form.local/",
+    "siteUrl" => "http://localhost/",
     "baseDirName" => "php_form",
     "renderEngine" => "Smarty", //今はこれだけ
     //Smarty パラメータ

@@ -47,7 +47,7 @@ require_once "classes/core/FormCreator.interfaces.php";
  * get appliation conf obj
  */
 require_once "$controllerConfFileName_str";
-$conf_obj = new $controllerName_str($phpFormConf_arr);
+$conf_obj = new formController($phpFormConf_arr);
 
 /**
  * get libs obj
