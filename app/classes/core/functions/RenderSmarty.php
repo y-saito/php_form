@@ -29,8 +29,13 @@ class RenderSmarty implements Render_Interface
     $this->engine->assign($assign_key, $assign_arr);
   }
   
+  public function fetch($template_str = ""){
+    if( !$this->engine->templateExists($template_str) ){
+      return false;
+    }
+    $this->engine->fetch($template_str);
+  }
   public function render($template_str = ""){
-  
     if( !$this->engine->templateExists($template_str) ){
       return false;
     }

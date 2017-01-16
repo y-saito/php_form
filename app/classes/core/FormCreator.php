@@ -19,6 +19,16 @@ class FormCreator
    * @var $controllerSetting_arr array "Application and Controller Settings."
    */
   private $controllerSetting_arr;
+  /**
+   * @var bool 完了時に投稿者にメールを送る判定フラグ
+   * true -> send / false -> no send
+   */
+  private $sendMailFlag_bool = false;
+  /**
+   * @var bool 完了時に管理者にメールを送る判定フラグ
+   * true -> send / false -> no send
+   */
+  private $sendReMailFlag_bool = false;
   
  /**
    * FormCreator constructor.
@@ -85,6 +95,14 @@ class FormCreator
       $this->render_obj->assign("controllerConf", $this->controllerSetting_arr["renderSetting"]);
       $this->render_obj->assign("inputValue", $this->inputValueController_obj->getInputValueArr());
       $this->render_obj->assign("errorArr", $this->inputValueController_obj->getErrorArr());
+      if($this->sendMailFlag_bool) {
+        //$mailBody = $this->render_obj->fetch($this->makeTemplateName($this->conf_obj->getControllerConf()["adminmailTemp"]));
+        //$this->mailer_obj->sendMail($mailBody, //メール送信に必要な引数);
+      }
+      if($this->sendReMailFlag_bool) {
+        //$mailBody = $this->render_obj->fetch($this->makeTemplateName($this->conf_obj->getControllerConf()["adminmailTemp"]));
+        //$this->mailer_obj->sendMail($mailBody, //メール送信に必要な引数);
+      }
       if ($this->render_obj->render($this->makeTemplateName()) === false) return false;
   
       //$this->render_obj->render("debug.tpl");
@@ -114,6 +132,30 @@ class FormCreator
   
   private function processThanks()
   {
+    // sendmail
+    if($this->conf_obj->getControllerConf()["adminmail"] === 1){
+      $this->sendMailFlag_bool = true;
+    }
+    if($this->conf_obj->getControllerConf()["remail"] === 1){
+      $this->sendReMailFlag_bool = true;
+    }
+    /*
+    if($adminmail === 1) {
+      $body = $smarty->fetch("{$dir}/{$adminmailTemp}");
+      if($addNum === 0 &&  $flagWriteError) $subject = "{$num} {$subject}";
+      if($addNum === 0 && !$flagWriteError) $subject = sprintf($addNumF, $num) . "{$subject}";
+      sendMail($to, $from, $fromname, $bcc, $replyto, $subject, $body, $addAdminSnderInfo);
+    }
+    if($remail === 1) {
+      $rebody = $smarty->fetch("{$dir}/{$remailTemp}");
+      if($addReNum === 0 &&  $flagWriteError) $subject = "{$num} {$subject}";
+      if($addReNum === 0 && !$flagWriteError) $subject = sprintf($addReNumF, $num) . "{$subject}";
+      if(isset($_SESSION['email']) && $_SESSION['email'] != "") sendMail($_SESSION['email'], $from, $fromname, $bcc, $replyto, $resubject, $rebody, $addRemailSnderInfo);
+    }
+    */
+    
+    // write counterfile
+    
     return true;
   }
   

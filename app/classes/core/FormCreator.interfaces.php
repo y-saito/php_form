@@ -20,6 +20,8 @@ interface Render_Interface{
   
   public function assign($key="", $value=[]);
   
+  public function fetch($template="");
+  
   public function render($template="");
 
 }
