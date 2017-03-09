@@ -16,44 +16,67 @@ class formController implements \phpForm\Core\Configure_Interface
       "titleArray" => ["Engineer","Sales","Support","Manager"],
       "titleValueArray" => [0,1,2,3],
     ],
-    "mail" => [ 
-      // 管理者メールアドレス ※メールを受け取るメールアドレス(複数指定する場合は「,」で区切ってください)
-      "to"    => "info@hoge.local",
-      "errto" => "error@hoge.local", //エラー報告用
+    "mail" => [
 
-      // Bccで送るメールアドレス(複数指定する場合は「,」で区切ってください)
-      "bcc" => "",
+      "admin" => [
 
-      // 管理者に送信内容確認メール（自動返信メール）を送る(送る=1, 送らない=0)
-      "adminmail" => 1,
-      "addAdminSnderInfo" => true, //メールに送信者情報をつけるか？
-      "adminmailTemp" => "adminmail.tpl", //使用するテンプレート名
+        // 管理者に送信内容確認メール（自動返信メール）を送る(送る=true, 送らない=false)
+        "sendFlag" => true,
 
-      // 管理者宛に送信されるメールのタイトル（件名）
-      "subject" => "お問い合わせ（返信不要）",
-      "addNum" => 0, //件名に連番を 0:付ける 1:付けない
-      "addNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
-      "cntFileDir" => "./__file/", //カウンターファイルの設置場所。指定したディレクトリ配下の/[appname]/mailcnt.txtが使われます。
+        /* 送信設定 */
+        // 管理者メールアドレス ※メールを受け取るメールアドレス(複数指定する場合は「,」で区切ってください)
+        "to"    => "root@php-form.local",
+        "errto" => "root@php-form.local", //エラー報告用
+        // Bccで送るメールアドレス(複数指定する場合は「,」で区切ってください)
+        "bcc" => "",
+        //自動返信メールの送信者欄に表示される名前とメールアドレス　※あなたの名前や会社名など（もし自動返信メールの送信者名が文字化けする場合ここは空にしてください）
+        "fromName" => "no-reply@php-form.local",
+        "from" => "no-reply@php-form.local",
+        //replytoメールアドレス
+        "replyto" => "no-reply@php-form.local",
 
-      // 差出人に送信内容確認メール（自動返信メール）を送る(送る=>1, 送らない=>0)
-      "remail" => 0,
-      "addRemailSnderInfo" => false, //メールに送信者情報をつけるか？
-      "remailTemp" => "remail.tpl", //使用するテンプレート名
+        /* 件名 */
+        // 管理者宛に送信されるメールのタイトル（件名）
+        "subject" => "[管理者用]お問い合わせ（返信不要）",
+        "addNum" => false, //件名に連番を (送る=true, 送らない=false)
+        "addNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
 
-      // 差出人宛に送信されるメールのタイトル（件名）
-      "resubject" => "",
-      "addReNum" => 0, //件名に連番を 0:付ける 1:付けない
-      "addReNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
+        //使用する本文用テンプレート名
+        "mailTemplate" => "adminmail.tpl",
 
-      //自動返信メールの送信者欄に表示される名前とメールアドレス　※あなたの名前や会社名など（もし自動返信メールの送信者名が文字化けする場合ここは空にしてください）
-      "fromname" => "info@hoge.local",
-      "from" => "info@hoge.local",
+        // メールに送信情報を追記するか？ true=はい false=いいえ
+        "addSenderInfoFlag" => true,
+      ],
 
-      //replytoメールアドレス
-      "replyto" => "info@hoge.local",
+      "confirm" =>[
 
-      // 差出人に送信確認メールを送る場合のメールのタイトル（上記で1を設定した場合のみ）
-      "re_subject" => ""
+         // 管理者に送信内容確認メール（自動返信メール）を送る(送る=true, 送らない=false)
+        "sendFlag" => true,
+
+        /* 送信設定 */
+        // 管理者メールアドレス ※メールを受け取るメールアドレス(複数指定する場合は「,」で区切ってください)
+        "to"    => "root@php-form.local",
+        "errto" => "root@php-form.local", //エラー報告用
+        // Bccで送るメールアドレス(複数指定する場合は「,」で区切ってください)
+        "bcc" => "",
+        //自動返信メールの送信者欄に表示される名前とメールアドレス　※あなたの名前や会社名など（もし自動返信メールの送信者名が文字化けする場合ここは空にしてください）
+        "fromName" => "no-reply@php-form.local",
+        "from" => "no-reply@php-form.local",
+        //replytoメールアドレス
+        "replyto" => "no-reply@php-form.local",
+
+        /* 件名 */
+        // 管理者宛に送信されるメールのタイトル（件名）
+        "subject" => "お問い合わせ（返信不要）",
+        "addNum" => false, //件名に連番を (送る=true, 送らない=false)
+        "addNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
+
+        //使用する本文用テンプレート名
+        "mailTemplate" => "remail.tpl",
+
+        // メールに送信情報を追記するか？ true=はい false=いいえ
+        "addSenderInfoFlag" => true,
+      ],
     ],
     "inputCheck" => [
         /* 入力項目設定(入力フォームで指定したnameキーに対する、設定パラメータ値を設定
