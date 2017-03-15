@@ -9,8 +9,6 @@
 namespace phpForm\Core\Functions;
 
 
-use phpForm\Core\Render_Interface;
-
 class RenderSmarty implements Render_Interface
 {
   public $engine;
@@ -30,12 +28,16 @@ class RenderSmarty implements Render_Interface
   }
   
   public function fetch($template_str = ""){
+
     if( !$this->engine->templateExists($template_str) ){
       return false;
     }
-    $this->engine->fetch($template_str);
+    return $this->engine->fetch($template_str);
+
   }
+
   public function render($template_str = ""){
+  
     if( !$this->engine->templateExists($template_str) ){
       return false;
     }

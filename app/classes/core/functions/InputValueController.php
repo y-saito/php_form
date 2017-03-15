@@ -24,9 +24,8 @@ class InputValueController
    * InputValueController constructor.
    * @param $inputValue_arr
    */
-  public function __construct($inputValue_arr=[], $validateError_arr=[]){
+  public function __construct($inputValue_arr=[]){
     $this->inputValue_arr = $inputValue_arr;
-    $this->error_arr = $validateError_arr;
   }
   
   /**

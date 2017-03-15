@@ -31,7 +31,6 @@ if($actionName_str !== $phpFormConf_arr['defaultAction'] && !isset($_POST['submi
 sessionStart($controllerName_str);
 //入力値をsessionに格納
 if(!isset($_SESSION['_request'])) $_SESSION['_request'] = [];
-if(!isset($_SESSION['_validateError'])) $_SESSION['_validateError'] = []; 
 if(isset($_POST)) {
   foreach($_POST as $key => $value) {
     $_SESSION['_request'][$key] = $value;
@@ -60,10 +59,11 @@ $renderEngine_obj = new $phpFormConf_arr["renderEngine"]();
  * get functions obj
  */
 require_once "classes/vendor/autoload.php";
-$inputValueController_obj = new phpForm\Core\Functions\InputValueController($_SESSION["_request"], $_SESSION["_validateError"]);
-$mailer_obj = new phpForm\Core\Functions\Mailer();
+$inputValueController_obj = new phpForm\Core\Functions\InputValueController($_SESSION["_request"]);
 $renderClassName = 'phpForm\Core\Functions\Render' . $phpFormConf_arr["renderEngine"];
 $render_obj = new $renderClassName($renderEngine_obj, $phpFormConf_arr["renderConf"]);
+$adminMailer_obj = new phpForm\Core\Functions\Mailer($conf_obj->getControllerConf()["mail"]["admin"], $render_obj);
+$confirmMailer_obj = new phpForm\Core\Functions\Mailer($conf_obj->getControllerConf()["mail"]["confirm"], $render_obj);
 
 /**
  * do form create
@@ -72,19 +72,15 @@ $formCreator_obj = new phpForm\Core\FormCreator(
                                                   $conf_obj,
                                                   $inputValueController_obj,
                                                   $render_obj,
-                                                  $mailer_obj
+                                                  $adminMailer_obj,
+                                                  $confirmMailer_obj
                                                 );
 
-//// 入力値処理。バリデートもしたい
-//// 出力
-//// メール送信
-//// 集計
 /**
  * input after process values to session
  */
 $result = $formCreator_obj->formCreate();
 $_SESSION['_request'] = $formCreator_obj->getInputValue();
-$_SESSION['_validateError'] = $formCreator_obj->getValidateErrorArray();
 
 if($result === false)  {
   $finalAction_str = $formCreator_obj->getControllerSettingArr()["appConf"]["action"];

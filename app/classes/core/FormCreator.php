@@ -14,7 +14,8 @@ class FormCreator
   private $conf_obj;
   private $inputValueController_obj;
   private $render_obj;
-  private $mailer_obj;
+  private $adminMailer_obj;
+  private $confirmMailer_obj;
   /**
    * @var $controllerSetting_arr array "Application and Controller Settings."
    */
@@ -43,14 +44,16 @@ class FormCreator
   public function __construct(
     Configure_Interface $conf_obj,
     $inputValueController_obj,
-    Render_Interface $render_obj,
-    $mailer_obj
+    Functions\Render_Interface $render_obj,
+    Functions\Mailer_interface $adminMailer_obj,
+    Functions\Mailer_interface $confirmMailer_obj
   ){
     $this->conf_obj = $conf_obj;
     $this->inputValueController_obj = $inputValueController_obj;
     $this->render_obj = $render_obj;
-    $this->mailer_obj = $mailer_obj;
-  
+    $this->adminMailer_obj = $adminMailer_obj;
+    $this->confirmMailer_obj = $confirmMailer_obj;
+
     $this->controllerSetting_arr = $conf_obj->getControllerConf();
   }
   
@@ -64,7 +67,7 @@ class FormCreator
   
   /**
    * 
-   * make template name from controller settingl
+   * make template name from controller setting
    * 
    * @return string "template file name."
    */
@@ -112,12 +115,18 @@ class FormCreator
       return false;
     }
   }
-  
+
+  /**
+   * @return bool 入力画面を表示するときの処理
+   */
   private function processEntry()
   {
     return true;
   }
-  
+
+  /**
+   * @return bool 確認画面を表示するときの処理
+   */
   private function processConfirm()
   {
     // errorcheck
@@ -129,42 +138,31 @@ class FormCreator
     }
     return true;
   }
-  
+
+  /**
+   * @return bool 完了画面を表示するときの処理
+   */
   private function processThanks()
   {
-    // sendmail
-    if($this->conf_obj->getControllerConf()["adminmail"] === 1){
-      $this->sendMailFlag_bool = true;
-    }
-    if($this->conf_obj->getControllerConf()["remail"] === 1){
-      $this->sendReMailFlag_bool = true;
-    }
     /*
-    if($adminmail === 1) {
-      $body = $smarty->fetch("{$dir}/{$adminmailTemp}");
-      if($addNum === 0 &&  $flagWriteError) $subject = "{$num} {$subject}";
-      if($addNum === 0 && !$flagWriteError) $subject = sprintf($addNumF, $num) . "{$subject}";
-      sendMail($to, $from, $fromname, $bcc, $replyto, $subject, $body, $addAdminSnderInfo);
-    }
-    if($remail === 1) {
-      $rebody = $smarty->fetch("{$dir}/{$remailTemp}");
-      if($addReNum === 0 &&  $flagWriteError) $subject = "{$num} {$subject}";
-      if($addReNum === 0 && !$flagWriteError) $subject = sprintf($addReNumF, $num) . "{$subject}";
-      if(isset($_SESSION['email']) && $_SESSION['email'] != "") sendMail($_SESSION['email'], $from, $fromname, $bcc, $replyto, $resubject, $rebody, $addRemailSnderInfo);
-    }
-    */
-    
-    // write counterfile
-    
-    return true;
+     * ファイル描き込み
+     */
+
+      /*
+       * メール送信
+       */
+      $this->adminMailer_obj->sendMail($this->inputValueController_obj->getInputValueArr());
+      $this->confirmMailer_obj->sendMail($this->inputValueController_obj->getInputValueArr());
+
+      return true;
   }
-  
+
+  /**
+   * form入力値取得
+   * @return mixed
+   */
   public function getInputValue()
   {
     return $this->inputValueController_obj->getInputValueArr();
-  }
-  
-  public function getValidateErrorArray(){
-    return $this->inputValueController_obj->getErrorArr();
   }
 }
