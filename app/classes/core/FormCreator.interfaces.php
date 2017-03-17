@@ -37,6 +37,8 @@ namespace phpForm\Core\Functions {
 
     public function assign($key = "", $value = []);
 
+ 　 public function fetch($template="");
+  
     public function render($template = "");
 
   }

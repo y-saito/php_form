@@ -20,6 +20,16 @@ class FormCreator
    * @var $controllerSetting_arr array "Application and Controller Settings."
    */
   private $controllerSetting_arr;
+  /**
+   * @var bool 完了時に投稿者にメールを送る判定フラグ
+   * true -> send / false -> no send
+   */
+  private $sendMailFlag_bool = false;
+  /**
+   * @var bool 完了時に管理者にメールを送る判定フラグ
+   * true -> send / false -> no send
+   */
+  private $sendReMailFlag_bool = false;
   
  /**
    * FormCreator constructor.
@@ -88,6 +98,14 @@ class FormCreator
       $this->render_obj->assign("controllerConf", $this->controllerSetting_arr["renderSetting"]);
       $this->render_obj->assign("inputValue", $this->inputValueController_obj->getInputValueArr());
       $this->render_obj->assign("errorArr", $this->inputValueController_obj->getErrorArr());
+      if($this->sendMailFlag_bool) {
+        //$mailBody = $this->render_obj->fetch($this->makeTemplateName($this->conf_obj->getControllerConf()["adminmailTemp"]));
+        //$this->mailer_obj->sendMail($mailBody, //メール送信に必要な引数);
+      }
+      if($this->sendReMailFlag_bool) {
+        //$mailBody = $this->render_obj->fetch($this->makeTemplateName($this->conf_obj->getControllerConf()["adminmailTemp"]));
+        //$this->mailer_obj->sendMail($mailBody, //メール送信に必要な引数);
+      }
       if ($this->render_obj->render($this->makeTemplateName()) === false) return false;
   
       //$this->render_obj->render("debug.tpl");
