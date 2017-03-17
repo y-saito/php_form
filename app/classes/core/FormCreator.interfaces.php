@@ -1,11 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yu-saito
- * Date: 2017/01/09
- * Time: 5:53
+ * アプリケーションで使うクラスメソッドをここで定義する
  */
- 
+
 namespace phpForm\Core {
 
   /**
@@ -30,7 +27,7 @@ namespace phpForm\Core\Functions {
   /**
    * レンダリングエンジンオブジェクト用
    * Interface Render_Interface
-   * @package phpForm\Core
+   * @package phpForm\Core\Functions
    */
   interface Render_Interface
   {
@@ -46,11 +43,34 @@ namespace phpForm\Core\Functions {
   /**
    * メール送信オブジェクト用
    * Interface Mailer_interface
-   * @package phpForm\Core
+   * @package phpForm\Core\Functions
    */
   interface Mailer_interface
   {
     public function sendMail($form_arr = []);
+  }
+
+  /**
+   * 入力値コントローラーオブジェクト用
+   * Interface InputValueController
+   * @package phpForm\Core\Functions
+   */
+  interface InputValueController_interface
+  {
+    public function getInputValueArr();
+
+    public function getErrorArr();
+
+    public function validate(
+      $inputCheckPattern_arr = [
+        'inputCheck' => [],
+        'messages' => [
+          'errMess' => [],
+          'warnMess' => []
+        ]
+      ]
+    );
+
   }
 }
  

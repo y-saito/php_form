@@ -9,7 +9,7 @@
 namespace phpForm\Core\Functions;
 
 
-class InputValueController
+class InputValueController implements InputValueController_interface
 {
   /**
    * @var $inputValue_arr array '= $_REQUEST'
@@ -44,38 +44,50 @@ class InputValueController
     return $this->error_arr;
   }
   
-  public function validate($inputCheckPattern_arr=[], $errorMessages_arr)
+  public function validate(
+    $validation_arr=[
+      'inputCheck'=>[],
+      'messages'=>[
+        'errMess'=>[],
+        'warnMess'=>[]
+      ]
+    ]
+  )
   {
     $this->error_arr = [];
     
-    foreach($inputCheckPattern_arr as $name=>$validatePattern) {
-      $item = $this->inputValue_arr[$name];
-      $validateType_arr = explode("_", $validatePattern);
-      foreach($validateType_arr as $validateType_str) {
-        switch($validateType_str) {
-          case "must":
-            //if($item === "" || is_null($item)) $error_arr[$name][] = $errorMessages_arr["must"];
-            if(!$this->checkMust($item)) $this->error_arr[$name][] = $errorMessages_arr["errMess"]["must"];
-            break;
-          case "mail":
-            if(!$this->checkMail($item)) $this->error_arr[$name][] = $errorMessages_arr["errMess"]["mail"];
-            break;
-          case "dc":
-            if(!$this->checkDc($item)) $this->error_arr[$name][] = $errorMessages_arr["errMess"]["dc"];
-            break;
-          default:
-            break;
+    foreach($validation_arr['inputCheck'] as $name=>$validatePattern) {
+      try {
+        if(!isset($this->inputValue_arr[$name]) || is_null($this->inputValue_arr[$name])) throw new \Exception($validation_arr["messages"]["errMess"]["system"]);
+        $item = $this->inputValue_arr[$name];
+        $validateType_arr = explode("_", $validatePattern);
+        foreach ($validateType_arr as $validateType_str) {
+          switch ($validateType_str) {
+            case "must":
+              $this->checkMust($item, $name, $validation_arr["messages"]["errMess"]["must"]);
+              break;
+            case "mail":
+              if (!$this->checkMail($item)) $this->error_arr[$name][] = $errorMessages_arr["errMess"]["mail"];
+              break;
+            case "dc":
+              if (!$this->checkDc($item)) $this->error_arr[$name][] = $errorMessages_arr["errMess"]["dc"];
+              break;
+            default:
+              break;
+          }
         }
+      }catch ($exception){
+        $this->error_arr['system'][] = $errorMessages_arr["errMess"]["system"];
       }
     }
-  
+
+    // 最後にエラーメッセージ配列を_でimplodeしてフォームnameごとに分割する。
     return $this->error_arr;
     
   }
  
-  private function checkMust($str){
-    if($str === "" || is_null($str)) return false;
-    return true;
+  private function checkMust($str, $name, $errMess){
+    if($str === "" || is_null($str)) throw new \Exception($name."_".$errMess);
   }
   
   private function checkMail($str){

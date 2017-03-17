@@ -59,9 +59,11 @@ $renderEngine_obj = new $phpFormConf_arr["renderEngine"]();
  * get functions obj
  */
 require_once "classes/vendor/autoload.php";
-$inputValueController_obj = new phpForm\Core\Functions\InputValueController($_SESSION["_request"]);
+$inputValueController_obj = new phpForm\Core\Functions\InputValueController($_SESSION["_request"],$conf_obj->getControllerConf()["validation"]);
+
 $renderClassName = 'phpForm\Core\Functions\Render' . $phpFormConf_arr["renderEngine"];
 $render_obj = new $renderClassName($renderEngine_obj, $phpFormConf_arr["renderConf"]);
+
 $adminMailer_obj = new phpForm\Core\Functions\Mailer($conf_obj->getControllerConf()["mail"]["admin"], $render_obj);
 $confirmMailer_obj = new phpForm\Core\Functions\Mailer($conf_obj->getControllerConf()["mail"]["confirm"], $render_obj);
 
