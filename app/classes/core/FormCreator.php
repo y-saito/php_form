@@ -131,7 +131,7 @@ class FormCreator
   {
     // errorcheck
     // もしエラーがあったら前の画面に戻る
-    $renderError_arr = $this->inputValueController_obj->validate($this->controllerSetting_arr["inputCheck"], $this->controllerSetting_arr["appConf"]["messages"]);
+    $renderError_arr = $this->inputValueController_obj->validate($this->controllerSetting_arr["validation"]);
     if(count($renderError_arr) > 0) {
       $this->controllerSetting_arr["appConf"]["action"] = "entry";
       return false;

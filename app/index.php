@@ -25,19 +25,6 @@ if($actionName_str !== $phpFormConf_arr['defaultAction'] && !isset($_POST['submi
 }
 
 /**
- * manage session
- */
-// sessoin start
-sessionStart($controllerName_str);
-//入力値をsessionに格納
-if(!isset($_SESSION['_request'])) $_SESSION['_request'] = [];
-if(isset($_POST)) {
-  foreach($_POST as $key => $value) {
-    $_SESSION['_request'][$key] = $value;
-  }
-}
-
-/**
  * get interfaces
  */
 require_once "classes/core/FormCreator.interfaces.php";
@@ -47,6 +34,24 @@ require_once "classes/core/FormCreator.interfaces.php";
  */
 require_once "$controllerConfFileName_str";
 $conf_obj = new formController($phpFormConf_arr);
+
+/**
+ * manage session
+ */
+// sessoin start
+sessionStart($controllerName_str);
+// sessionを入力キーで初期化
+if(!isset($_SESSION['_request'])) {
+  foreach ($conf_obj->getControllerConf()['validation']['inputCheck'] as $inputName => $validationType){
+    $_SESSION['_request'][$inputName] = '';
+  }
+}
+//入力値をsessionに格納
+if(isset($_POST)) {
+  foreach($_POST as $inputName => $value) {
+    $_SESSION['_request'][$inputName] = $value;
+  }
+}
 
 /**
  * get libs obj
