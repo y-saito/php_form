@@ -107,7 +107,7 @@ class Mailer implements Mailer_interface
     // from
     $header .= 'From: ' . mb_encode_mimeheader($this->mailConf_arr['address_arr']['from_str']) . ' <' . $this->mailConf_arr['address_arr']['from_str'] . ">\n";
     // bcc
-    if ($this->mailConf_arr['address_arr']['bcc'] !== '') {
+    if ($this->mailConf_arr['address_arr']['bcc_str'] !== '') {
       $header .= 'Bcc: '.$this->mailConf_arr['address_arr']['bcc_str']."\n";
     }
     // reply-to
