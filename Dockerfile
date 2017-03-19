@@ -42,8 +42,8 @@ ADD ./php.ini ${PhpIniFile}
 RUN apt-get install -y postgresql postgresql-contrib
 
 # postfix
-RUN apt-get install -y postfix
-ADD ./postfix-main.cf ${PostfixConfDir}/main.cf
+#RUN apt-get install -y postfix
+#ADD ./postfix-main.cf ${PostfixConfDir}/main.cf
 
 # application-config
 RUN cd /var/www/html &&\
