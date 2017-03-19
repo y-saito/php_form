@@ -1,6 +1,7 @@
 FROM python
 
 # env
+ENV PhpIniFile /etc/php5/apache2/php.ini
 ENV PhpIniDir /etc/php5/apache2/conf.d
 ENV Apache2ConfDir /etc/apache2
 ENV PostfixConfDir /etc/postfix
@@ -35,13 +36,14 @@ RUN apt-add-repository ppa:ondrej/php
 RUN apt-get install -y php5
 RUN apt-get install -y libapache2-mod-php5
 RUN apt-get install -y php5-pgsql php5-gd php5-dev
+ADD ./php.ini ${PhpIniFile}
 
 # postgresql
 RUN apt-get install -y postgresql postgresql-contrib
 
 # postfix
-RUN apt-get install -y postfix
-ADD ./postfix-main.cf ${PostfixConfDir}/main.cf
+#RUN apt-get install -y postfix
+#ADD ./postfix-main.cf ${PostfixConfDir}/main.cf
 
 # application-config
 RUN cd /var/www/html &&\
@@ -61,6 +63,5 @@ EXPOSE 80
 ENTRYPOINT  /bin/sed -ie "s/ ###HOST_IP###/`/sbin/ip route|awk '/default/ { print $3 }'`/" ${PhpIniDir}/30-xdebug-conf.ini &&\
             /etc/init.d/apache2 start &&\
             /etc/init.d/postgresql start &&\
-            /etc/init.d/postfix start &&\
             /etc/init.d/rsyslog start &&\
             /bin/bash
