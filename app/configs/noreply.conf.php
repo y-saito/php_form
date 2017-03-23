@@ -78,7 +78,7 @@ class formController implements \phpForm\Core\Configure_Interface
         "addSenderInfoFlag" => true,
       ],
     ],
-    "validatoin" => [
+    "validation" => [
       "inputCheck" => [
           /* 入力項目設定(入力フォームで指定したnameキーに対する、設定パラメータ値を設定
           must : 必須

@@ -44,6 +44,11 @@ class InputValueController implements InputValueController_interface
     return $this->error_arr;
   }
   
+  /**
+   * @param array $validation_arr
+   * @return array
+   * @throws \Exception
+   */
   public function validate(
     $validation_arr=[
       'inputCheck'=>[],
@@ -76,7 +81,7 @@ class InputValueController implements InputValueController_interface
               break;
           }
         }
-      }catch (\Exception $exception){
+      }catch(\Exception $e){
         $this->error_arr['system'][] = $validation_arr["messages"]["errMess"]["system"];
       }
     }
