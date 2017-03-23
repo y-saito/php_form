@@ -67,17 +67,17 @@ class InputValueController implements InputValueController_interface
               $this->checkMust($item, $name, $validation_arr["messages"]["errMess"]["must"]);
               break;
             case "mail":
-              if (!$this->checkMail($item)) $this->error_arr[$name][] = $errorMessages_arr["errMess"]["mail"];
+              if (!$this->checkMail($item)) $this->error_arr[$name][] = $validation_arr["messages"]["errMess"]["mail"];
               break;
             case "dc":
-              if (!$this->checkDc($item)) $this->error_arr[$name][] = $errorMessages_arr["errMess"]["dc"];
+              if (!$this->checkDc($item)) $this->error_arr[$name][] = $validation_arr["messages"]["errMess"]["dc"];
               break;
             default:
               break;
           }
         }
-      }catch ($exception){
-        $this->error_arr['system'][] = $errorMessages_arr["errMess"]["system"];
+      }catch (\Exception $exception){
+        $this->error_arr['system'][] = $validation_arr["messages"]["errMess"]["system"];
       }
     }
 
