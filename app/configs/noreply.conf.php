@@ -88,7 +88,7 @@ class formController implements \phpForm\Core\Configure_Interface
         //name => type_type...
         'title' => 'must',
         'comment' => 'must_dc',
-        'mail' => 'mail_dc',
+        'mail' => 'must_mail_dc',
       ],
       // inputCheckに対するメッセージ設定
       "messages" => [
