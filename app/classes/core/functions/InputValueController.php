@@ -60,51 +60,70 @@ class InputValueController implements InputValueController_interface
   )
   {
     $this->error_arr = [];
-    
-    foreach($validation_arr['inputCheck'] as $name=>$validatePattern) {
-      try {
+    try {
+      $e = null;
+      foreach($validation_arr['inputCheck'] as $name=>$validatePattern) {
         if(!isset($this->inputValue_arr[$name]) || is_null($this->inputValue_arr[$name])) throw new \Exception($validation_arr["messages"]["errMess"]["system"]);
         $item = $this->inputValue_arr[$name];
         $validateType_arr = explode("_", $validatePattern);
         foreach ($validateType_arr as $validateType_str) {
           switch ($validateType_str) {
             case "must":
-              $this->checkMust($item, $name, $validation_arr["messages"]["errMess"]["must"]);
+              if($this->checkMust($item) === false){
+                $e = new \Exception($name."_###_".$validation_arr["messages"]["errMess"]["must"], 0, $e);
+              }
               break;
             case "mail":
-              if (!$this->checkMail($item)) $this->error_arr[$name][] = $validation_arr["messages"]["errMess"]["mail"];
+              if($this->checkMail($item) === false) {
+                $e = new \Exception($name . "_###_" . $validation_arr["messages"]["errMess"]["mail"], 0, $e);
+              }
               break;
             case "dc":
-              if (!$this->checkDc($item)) $this->error_arr[$name][] = $validation_arr["messages"]["errMess"]["dc"];
+              if($this->checkDc($item) === false) {
+                $e = new \Exception($name . "_###_" . $validation_arr["messages"]["errMess"]["dc"], 0, $e);
+              }
               break;
             default:
               break;
           }
         }
-      }catch(\Exception $e){
-        $this->error_arr['system'][] = $validation_arr["messages"]["errMess"]["system"];
       }
+      if($e) throw $e;
+    }catch(\Exception $e){
+      //$this->error_arr['system'][] = $validation_arr["messages"]["errMess"]["system"];
+      do {
+        $catchMess_arr = explode('_###_', $e->getMessage());
+        $this->error_arr[$catchMess_arr[0]] = $catchMess_arr[1];
+      } while ($e = $e->getPrevious());
     }
-
     // 最後にエラーメッセージ配列を_でimplodeしてフォームnameごとに分割する。
     return $this->error_arr;
     
   }
- 
-  private function checkMust($str, $name, $errMess){
-    if($str === "" || is_null($str)) throw new \Exception($name."_".$errMess);
+
+  /**
+   * @param $str
+   * @return bool
+   */
+  private function checkMust($str){
+    if($str === "" || is_null($str)) return false;
   }
-  
+
+  /**
+   * @param $str
+   * @return bool
+   */
   private function checkMail($str){
     $mailaddress_array = explode('@',$str);
     if(preg_match("/^[\.!#%&\-_0-9a-zA-Z\?\/\+]+\@[!#%&\-_0-9a-z]+(\.[!#%&\-_0-9a-z]+)+$/", "$str") && count($mailaddress_array) === 2){
-      return true;
-    }
-    else{
       return false;
     }
   }
 
+  /**
+   * @param $str
+   * @return bool
+   */
   private function checkDc($str) {
     $checkCode = array(
       "EUC-JP",
@@ -117,7 +136,6 @@ class InputValueController implements InputValueController_interface
     for($i=0;$i<sizeof($checkCode);$i++) {
       if(strlen($str) !== strlen(mb_convert_encoding(mb_convert_encoding($str,$checkCode[$i],'UTF-8'),'UTF-8',$checkCode[$i]))) return false;
     }
-    return true;
   }
 
   private function h($string) {
