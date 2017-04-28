@@ -20,9 +20,7 @@
     <div class="col-sm-10">
       <input type="email" class="form-control" id="mail" name="mail" placeholder="hoge@hoge.hoge" value="<%$inputValue.mail|escape%>">
       <%if isset($errorArr.mail)%>
-        <%section name=counter loop=$errorArr.mail%>
-        <p class="text-danger" role="alert"><%$errorArr.mail[counter]|escape%></p>
-        <%/section%>
+        <p class="text-danger" role="alert"><%$errorArr.mail|escape%></p>
       <%/if%>
     </div>
   </div>
@@ -33,9 +31,7 @@
       <textarea id="comment" name="comment" class="form-control" rows="6"><%$inputValue.comment|escape%></textarea>
       <span class="help-block">半角カタカナ、特殊文字の使用は避けてください。</span>
       <%if isset($errorArr.comment)%>
-        <%section name=counter loop=$errorArr.comment%>
-        <p class="text-danger" role="alert"><%$errorArr.comment[counter]|escape%></p>
-        <%/section%>
+        <p class="text-danger" role="alert"><%$errorArr.comment|escape%></p>
       <%/if%>
     </div>
 </div>

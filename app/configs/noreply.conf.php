@@ -97,6 +97,7 @@ class formController implements \phpForm\Core\Configure_Interface
           "must" => "入力必須項目です。",
           "mail" => "正しいメールアドレスを入力してください。",
           "dc" => "機種依存文字が含まれていました。",
+          "system" => "エラーが発生しました、本サービス提供元にお問い合わせください。"
         ],
         // 渓谷項目に対応するメッセージ
         'warnMess' => [
