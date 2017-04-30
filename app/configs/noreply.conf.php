@@ -8,8 +8,11 @@
 class formController implements \phpForm\Core\Configure_Interface
 {
   private $controllerConf_arr = [
-
-    //Smarty 表示用パラメータ //asaing変数名 => assignする内容
+    // このformの遷移パターンを設定できます。
+    // 左の要素がデフォルトページになり、右へ進んでいくイメージで登録してください。
+    // 新しいアクションを追加することができます。 FormCreator.phpに "process" . ucfirst(アクション名) メソッドを追加することでsubmit後に処理を加えることができます。
+    "actionRouting" => ['entry', 'confirm', 'thanks'],
+    // Smarty 表示用パラメータ //asaing変数名 => assignする内容
     "renderSetting" => [
       "pageTitle" => "title", // ページタイトルタグ
       "pageDescription" => "description", // ページディスクリプションタグ

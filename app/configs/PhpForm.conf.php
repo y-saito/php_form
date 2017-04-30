@@ -4,7 +4,7 @@ useApp : つくるフォームのディレクトリ名
 siteUrl : リダイレクト用
 defaultAction : 入力画面のテンプレートファイル名(.tplは省きます。
 */
-  $phpFormConf_arr = array(
+  $phpFormConf_arr = [
     "siteUrl" => "http://localhost/",
     "baseDirName" => "php_form",
     "renderEngine" => "Smarty", //今はこれだけ
@@ -18,16 +18,14 @@ defaultAction : 入力画面のテンプレートファイル名(.tplは省き�
       "left_delimiter" => '<%',
       "right_delimiter" => '%>',
     ],
-    "defaultAction" => "entry",
     "maxWriteRetry" => 5, //ファイル読み書き込みのリトライ回数
     "writeWait"     => 3000000, //ファイル読み書き込みのリトライ回数後の待ち時間(マイクロ秒)
-  );
+  ];
 //make routing from uri
 $phpFormConf_arr['scriptnameInfo'] = pathinfo($_SERVER['SCRIPT_NAME']);
 $appInfoTmp = str_replace($phpFormConf_arr['scriptnameInfo'], '', $_SERVER['REQUEST_URI']);
 $appInfoTmp = explode('/', $appInfoTmp);
 $phpFormConf_arr['controller'] = $appInfoTmp[1];
-$phpFormConf_arr['action']  = (isset($appInfoTmp[2]) ? $appInfoTmp[2] : $phpFormConf_arr["defaultAction"]);
-$phpFormConf_arr['submit']  = (isset($_POST["submit"]) ? $_POST["submit"] : $phpFormConf_arr["defaultAction"]);
+$phpFormConf_arr['action']  = (isset($appInfoTmp[2]) ? $appInfoTmp[2] : '');
 
 
