@@ -24,15 +24,15 @@
   </div>
 </div>
 
+<form class="form-horizontal" method="post" action="<%$sendUri%>">
 <div class="btn-group btn-group-justified" role="group">
   <div class="btn-group" role="group">
-    <button class="btn btn-default" onclick="location.href='/<%$appConf.baseDirName%>/<%$appConf.controller%>/entry/'">戻る</button>
+    <button type="submit" name="process" value="-1" class="btn btn-default">戻る</button>
   </div>
   <div class="btn-group" role="group">
-    <form class="form-horizontal" method="post" action="/<%$appConf.baseDirName%>/<%$appConf.controller%>/thanks/">
-    <button name="submit" value="thanks" class="btn btn-primary">送信する</button>
-    </form>
+    <button type="submit" name="process" value="1" class="btn btn-primary">送信する</button>
   </div>
 </div>
+</form>
 
 <%include file="_common/footer.tpl"%>

@@ -20,33 +20,25 @@ class FormCreator
    * @var $controllerSetting_arr array "Application and Controller Settings."
    */
   private $controllerSetting_arr;
+
+  private $processRouteKey;
+
   /**
-   * @var bool 完了時に投稿者にメールを送る判定フラグ
-   * true -> send / false -> no send
-   */
-  private $sendMailFlag_bool = false;
-  /**
-   * @var bool 完了時に管理者にメールを送る判定フラグ
-   * true -> send / false -> no send
-   */
-  private $sendReMailFlag_bool = false;
-  
- /**
    * FormCreator constructor.
-   * 
-   * Dependency Injection.
-   * 
    * @param Configure_Interface $conf_obj
-   * @param $inputValueController_obj
-   * @param Render_Interface $render_obj
-   * @param $mailer_obj
+   * @param Functions\InputValueController_interface $inputValueController_obj
+   * @param Functions\Render_Interface $render_obj
+   * @param Functions\Mailer_interface $adminMailer_obj
+   * @param Functions\Mailer_interface $confirmMailer_obj
    */
-  public function __construct(
+  public function __construct
+  (
     Configure_Interface $conf_obj,
-    $inputValueController_obj,
+    Functions\InputValueController_interface $inputValueController_obj,
     Functions\Render_Interface $render_obj,
     Functions\Mailer_interface $adminMailer_obj,
-    Functions\Mailer_interface $confirmMailer_obj
+    Functions\Mailer_interface $confirmMailer_obj,
+    $processRouteKey
   ){
     $this->conf_obj = $conf_obj;
     $this->inputValueController_obj = $inputValueController_obj;
@@ -55,9 +47,12 @@ class FormCreator
     $this->confirmMailer_obj = $confirmMailer_obj;
 
     $this->controllerSetting_arr = $conf_obj->getControllerConf();
+
+    $this->processRouteKey = $processRouteKey;
+
   }
   
-   /**
+  /**
    * @return array
    */
   public function getControllerSettingArr()
@@ -76,7 +71,7 @@ class FormCreator
     $dirName = $this->controllerSetting_arr["appConf"]["controller"];
     $fileName = ($this->controllerSetting_arr["appConf"]["action"] !== "" ? 
                   $this->controllerSetting_arr["appConf"]["action"] : $this->controllerSetting_arr["appConf"]["defaultAction"]);
-    
+
     return "{$dirName}/{$fileName}.tpl";
   }
   
@@ -88,81 +83,51 @@ class FormCreator
    * @return bool
    */ 
   public function formCreate(){
-  
-    // process
-    $methodName = "process".ucfirst($this->controllerSetting_arr["appConf"]["action"]);
-    if($this->$methodName() === true) {
-  
-      // rendering
-      $this->render_obj->assign("appConf", $this->controllerSetting_arr["appConf"]);
-      $this->render_obj->assign("controllerConf", $this->controllerSetting_arr["renderSetting"]);
-      $this->render_obj->assign("inputValue", $this->inputValueController_obj->getInputValueArr());
-      $this->render_obj->assign("errorArr", $this->inputValueController_obj->getErrorArr());
-      if($this->sendMailFlag_bool) {
-        //$mailBody = $this->render_obj->fetch($this->makeTemplateName($this->conf_obj->getControllerConf()["adminmailTemp"]));
-        //$this->mailer_obj->sendMail($mailBody, //メール送信に必要な引数);
-      }
-      if($this->sendReMailFlag_bool) {
-        //$mailBody = $this->render_obj->fetch($this->makeTemplateName($this->conf_obj->getControllerConf()["adminmailTemp"]));
-        //$this->mailer_obj->sendMail($mailBody, //メール送信に必要な引数);
-      }
-      if ($this->render_obj->render($this->makeTemplateName()) === false) return false;
-  
-      //$this->render_obj->render("debug.tpl");
-      //echo "Hello world!";
-      return true;
-    }else{
-      return false;
-    }
+    // rendering
+    $this->render_obj->assign("appConf", $this->controllerSetting_arr["appConf"]);
+    $this->render_obj->assign("controllerConf", $this->controllerSetting_arr["renderSetting"]);
+    $this->render_obj->assign("inputValue", $this->getInputValue());
+    $this->render_obj->assign("errorArr", $this->getErrors());
+    $this->render_obj->assign("sendUri", $_SERVER['REQUEST_URI']);
+
+    return $this->render_obj->fetch($this->makeTemplateName());
+
   }
 
   /**
-   * @return bool 入力画面を表示するときの処理
+   * 入力画面を表示するときの処理
    */
-  private function processEntry()
+  public function processEntry()
   {
-    return true;
+      $this->inputValueController_obj->validate($this->controllerSetting_arr['validation']);
+      return (count($this->getErrors()) > 0) ? 0 : $this->processRouteKey;
   }
 
   /**
-   * @return bool 確認画面を表示するときの処理
+   * 完了画面を表示するときの処理
    */
-  private function processConfirm()
-  {
-    // errorcheck
-    // もしエラーがあったら前の画面に戻る
-    $renderError_arr = $this->inputValueController_obj->validate($this->controllerSetting_arr["inputCheck"], $this->controllerSetting_arr["appConf"]["messages"]);
-    if(count($renderError_arr) > 0) {
-      $this->controllerSetting_arr["appConf"]["action"] = "entry";
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * @return bool 完了画面を表示するときの処理
-   */
-  private function processThanks()
+  public function processThanks()
   {
     /*
      * ファイル描き込み
      */
 
-      /*
-       * メール送信
-       */
-      $this->adminMailer_obj->sendMail($this->inputValueController_obj->getInputValueArr());
-      $this->confirmMailer_obj->sendMail($this->inputValueController_obj->getInputValueArr());
-
-      return true;
+    /*
+     * メール送信
+     */
+    $this->adminMailer_obj->sendMail($this->getInputValue());
+    $this->confirmMailer_obj->sendMail($this->getInputValue());
+    return 0;
   }
 
   /**
    * form入力値取得
    * @return mixed
    */
-  public function getInputValue()
-  {
+  public function getInputValue() {
     return $this->inputValueController_obj->getInputValueArr();
+  }
+  public function getErrors() {
+    return $this->inputValueController_obj->getErrorArr();
   }
 }
