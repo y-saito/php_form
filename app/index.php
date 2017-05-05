@@ -86,17 +86,19 @@ $formCreator_obj = new phpForm\Core\FormCreator(
 /**
  * routing
  */
+
+/// process~は遷移先のページ表示時に動作させる方式にしたい。
+/// 実行前にrouting配列から遷移先のページ名を割り出すルーチンが必要
+
 if(!is_null($processRouteKey))
 {
-  $methodName = "process" . ucfirst($actionName_str);
+  $currentRoutingKey = array_search($actionName_str, $conf_obj->getControllerConf()['actionRouting']);
+  $nextRoutingKey = $currentRoutingKey + $processRouteKey;
+  $methodName = "process" . ucfirst($conf_obj->getControllerConf()['actionRouting'][$nextRoutingKey]);
   if(method_exists($formCreator_obj, $methodName)) $processRouteKey = $formCreator_obj->$methodName();
 }else{
   $processRouteKey = 0;
 }
-
-// input after process values to session
-$_SESSION['_request'] = $formCreator_obj->getInputValue();
-$_SESSION['_process'] = $processRouteKey;
 
 if($processRouteKey === 0)
 {
@@ -104,15 +106,17 @@ if($processRouteKey === 0)
   $result = $formCreator_obj->formCreate();
   echo $result;
 }else{
-  $currentRoutingKey = array_search($actionName_str, $conf_obj->getControllerConf()['actionRouting']);
-  $nextRoutingKey = $currentRoutingKey + $processRouteKey;
   goHome("{$phpFormConf_arr['scriptnameInfo']['dirname']}/{$controllerName_str}/{$conf_obj->getControllerConf()['actionRouting'][$nextRoutingKey]}/");
 }
 
 /**
  * finally process
  */
-// この処理はprocessThanksに入れるべき。
+// input after process values to session
+$_SESSION['_request'] = $formCreator_obj->getInputValue();
+$_SESSION['_process'] = $processRouteKey;
+
+// TODO:この処理はprocessThanksに入れるべき。
 if($actionName_str === "thanks") sessionClear();
 
 

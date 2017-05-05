@@ -95,29 +95,33 @@ class FormCreator
   }
 
   /**
-   * 入力画面を表示するときの処理
+   * 入力画面から次の画面へ遷移するときの処理
    */
-  public function processEntry()
+  public function processConfirm()
   {
       $this->inputValueController_obj->validate($this->controllerSetting_arr['validation']);
       return (count($this->getErrors()) > 0) ? 0 : $this->processRouteKey;
   }
 
   /**
-   * 完了画面を表示するときの処理
+   * 確認画面から次の画面へ遷移するときの処理
    */
   public function processThanks()
   {
     /*
-     * ファイル描き込み
+     * TODO:ファイル描き込み
      */
 
     /*
      * メール送信
      */
-    $this->adminMailer_obj->sendMail($this->getInputValue());
-    $this->confirmMailer_obj->sendMail($this->getInputValue());
-    return 0;
+    if(!$this->adminMailer_obj->sendMail($this->getInputValue())){
+      error_log("App Error:Can't send adminMail");
+    }
+    if(!$this->confirmMailer_obj->sendMail($this->getInputValue())){
+      error_log("App Error:Can't send confirmMail");
+    }
+    return $this->processRouteKey;
   }
 
   /**
