@@ -11,7 +11,7 @@ class formController implements \phpForm\Core\Configure_Interface
     // このformの遷移パターンを設定できます。
     // 左の要素がデフォルトページになり、右へ進んでいくイメージで登録してください。
     // 新しいアクションを追加することができます。 FormCreator.phpに "process" . ucfirst(アクション名) メソッドを追加することでsubmit後に処理を加えることができます。
-    "actionRouting" => ['entry', 'confirm', 'thanks'],
+   "actionRouting" => ['entry', 'confirm', 'thanks'],
     // Smarty 表示用パラメータ //asaing変数名 => assignする内容
     "renderSetting" => [
       "pageTitle" => "title", // ページタイトルタグ
@@ -45,10 +45,10 @@ class formController implements \phpForm\Core\Configure_Interface
         "addNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
 
         //使用する本文用テンプレート名
-        "mailTemplate" => "adminmail.tpl",
+        "mailTemplate" => "noreply/adminmail.tpl",
 
         // メールに送信情報を追記するか？ true=はい false=いいえ
-        "addSenderInfoFlag" => true,
+        "addSenderInfoFlag" => false,
       ],
 
       "confirm" =>[
@@ -71,11 +71,11 @@ class formController implements \phpForm\Core\Configure_Interface
         /* 件名 */
         // 管理者宛に送信されるメールのタイトル（件名）
         "subject" => "お問い合わせ（返信不要）",
-        "addNum" => false, //件名に連番を (送る=true, 送らない=false)
+        "addNum" => true, //件名に連番を (送る=true, 送らない=false)
         "addNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
 
         //使用する本文用テンプレート名
-        "mailTemplate" => "remail.tpl",
+        "mailTemplate" => "noreply/remail.tpl",
 
         // メールに送信情報を追記するか？ true=はい false=いいえ
         "addSenderInfoFlag" => true,

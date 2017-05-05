@@ -127,7 +127,7 @@ class Mailer implements Mailer_interface
     $subject = $this->mailConf_arr['subject_arr']['subject_str'];
     // addNumFlag判定をして件名にカウント情報追加
     if($this->mailConf_arr['subject_arr']['addNumFlag_bool'] === true){
-      // TODO counterを買うとファイルから取得
+      // TODO counterをファイルから取得
       $counter = 0;
       $subject .= "[{sprintf($this->mailConf_arr['subject_arr']['addNumFormat_str'],$counter)}]" . $subject;
     }
