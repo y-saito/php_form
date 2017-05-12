@@ -90,7 +90,7 @@ class Mailer implements Mailer_interface
    * @return bool
    */
   ////public function sendMail($to, $from, $fromname, $bcc = '', $replyto, $subject, $body, $addSnderInfo = false)
-  public function sendMail($form_arr=[])
+  public function sendMail($form_arr=[], $dirName='')
   {
 
     // メール送信フラグが立ってなければ処理しないで成功ステータスを返す
@@ -117,7 +117,7 @@ class Mailer implements Mailer_interface
     foreach ($form_arr as $name => $value) {
       $this->render_obj->assign($name, $value);
     }
-    $body = $this->render_obj->fetch($this->mailConf_arr['template_str']);
+    $body = $this->render_obj->fetch($dirName.'/'.$this->mailConf_arr['template_str']);
     // senderflag判定して送信者情報追加
     if($this->mailConf_arr['addSenderInfoFlag_bool'] === true) {
       $body .= sprintf($this->addSenderInfoBody_str, date('Y/m/d (D) H:i:s', time()), $_SERVER['REMOTE_ADDR'], gethostbyaddr(getenv('REMOTE_ADDR')));

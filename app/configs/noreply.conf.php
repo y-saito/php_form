@@ -45,7 +45,7 @@ class formController implements \phpForm\Core\Configure_Interface
         "addNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
 
         //使用する本文用テンプレート名
-        "mailTemplate" => "noreply/adminmail.tpl",
+        "mailTemplate" => "adminmail.tpl",
 
         // メールに送信情報を追記するか？ true=はい false=いいえ
         "addSenderInfoFlag" => false,
@@ -75,7 +75,7 @@ class formController implements \phpForm\Core\Configure_Interface
         "addNumF" => "No.%1$03d ", //件名の頭につく書式。sprintfのフォーマットで指定。%1に数字が入る。
 
         //使用する本文用テンプレート名
-        "mailTemplate" => "noreply/remail.tpl",
+        "mailTemplate" => "remail.tpl",
 
         // メールに送信情報を追記するか？ true=はい false=いいえ
         "addSenderInfoFlag" => true,

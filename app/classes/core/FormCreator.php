@@ -115,10 +115,10 @@ class FormCreator
     /*
      * メール送信
      */
-    if(!$this->adminMailer_obj->sendMail($this->getInputValue())){
+    if(!$this->adminMailer_obj->sendMail($this->getInputValue(), $this->controllerSetting_arr["appConf"]["controller"])){
       error_log("App Error:Can't send adminMail");
     }
-    if(!$this->confirmMailer_obj->sendMail($this->getInputValue())){
+    if(!$this->confirmMailer_obj->sendMail($this->getInputValue(), $this->controllerSetting_arr["appConf"]["controller"])){
       error_log("App Error:Can't send confirmMail");
     }
     return $this->processRouteKey;
