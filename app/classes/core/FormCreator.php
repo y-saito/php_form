@@ -53,14 +53,6 @@ class FormCreator
   }
   
   /**
-   * @return array
-   */
-  public function getControllerSettingArr()
-  {
-    return $this->controllerSetting_arr;
-  }
-  
-  /**
    * 
    * make template name from controller setting
    * 
@@ -69,8 +61,7 @@ class FormCreator
   private function makeTemplateName(){
     // config & init
     $dirName = $this->controllerSetting_arr["appConf"]["controller"];
-    $fileName = ($this->controllerSetting_arr["appConf"]["action"] !== "" ? 
-                  $this->controllerSetting_arr["appConf"]["action"] : $this->controllerSetting_arr["appConf"]["defaultAction"]);
+    $fileName = $this->controllerSetting_arr["appConf"]["action"];
 
     return "{$dirName}/{$fileName}.tpl";
   }

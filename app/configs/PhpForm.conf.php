@@ -1,8 +1,6 @@
 <?php
 /*
-useApp : つくるフォームのディレクトリ名
 siteUrl : リダイレクト用
-defaultAction : 入力画面のテンプレートファイル名(.tplは省きます。
 */
   $phpFormConf_arr = [
     "siteUrl" => "http://localhost/",
