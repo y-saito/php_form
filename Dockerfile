@@ -42,17 +42,17 @@ ADD ./php.ini ${PhpIniFile}
 RUN apt-get install -y postgresql postgresql-contrib
 
 # postfix
-#RUN apt-get install -y postfix
-#ADD ./postfix-main.cf ${PostfixConfDir}/main.cf
+RUN echo postfix postfix/main_mailer_type string "'Internet Site'" | debconf-set-selections && \
+  echo postfix postfix/mynetworks string "127.0.0.0/8" | debconf-set-selections && \
+  echo postfix postfix/mailname string php-form.local | debconf-set-selections && \
+  apt-get -y install postfix
+ADD ./postfix-main.cf ${PostfixConfDir}/main.cf
 
 # application-config
 RUN cd /var/www/html &&\
     ln -s /tmp/share/app/ php_form &&\
     cd /etc/apache2/mods-enabled/ &&\
     ln -s ../mods-available/rewrite.load
-
-# add name
-RUN echo '127.0.0.1    php-form.local' >> ${HostsFile}
 
 # develop mode
 RUN apt-get install -y php5-xdebug
@@ -64,4 +64,5 @@ ENTRYPOINT  /bin/sed -ie "s/ ###HOST_IP###/`/sbin/ip route|awk '/default/ { prin
             /etc/init.d/apache2 start &&\
             /etc/init.d/postgresql start &&\
             /etc/init.d/rsyslog start &&\
+            /etc/init.d/postfix start &&\
             /bin/bash
